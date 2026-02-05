@@ -3,6 +3,7 @@ using namespace std;
 int main()
 {
     int a,b;
+    cout<<"Enter any two numbers: ";
     cin>>a>>b;
     int rem=INT_MAX;
     int divident=max(a,b);
@@ -16,5 +17,5 @@ int main()
             divisor=rem;
         }
     }
-    cout<<divisor<<endl;
+    cout<<"The GCD of two numbers is: "<<divisor<<endl;
 }
