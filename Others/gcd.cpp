@@ -8,14 +8,20 @@ int main()
     int rem=INT_MAX;
     int divident=max(a,b);
     int divisor=min(a,b);
-    while(rem!=0)
+    if(a==0 || b==0)
     {
-        rem=divident%divisor;
-        if(rem>0)
-        {
-            divident=divisor;
-            divisor=rem;
-        }
+        cout<<"The GCD of two numbers is: "<<max(a,b)<<endl;
     }
-    cout<<"The GCD of two numbers is: "<<divisor<<endl;
+    else{
+        while(rem!=0)
+        {
+            rem=divident%divisor;
+            if(rem>0)
+            {
+                divident=divisor;
+                divisor=rem;
+            }
+        }
+        cout<<"The GCD of two numbers is: "<<divisor<<endl;
+    }
 }
