@@ -1,4 +1,3 @@
-
 #include<bits/stdc++.h>
 using namespace std;
 int findGcd(int a, int b)
@@ -29,7 +28,6 @@ int findLcm(int a, int b)
     int lcm=(a*b)/gcd;
     return lcm;
 }
-
 int main()
 {
     int n, a,b;
