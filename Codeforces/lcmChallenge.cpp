@@ -10,7 +10,7 @@ int main()
     cin>>n;
     if(n<=2)
     {
-        cout<<2<<endl;
+        cout<<n<<endl;
     }
     else if(n%2==1)
     {
@@ -19,7 +19,8 @@ int main()
     else{
         long long option1=findLCM(n , findLCM(n-1, n-2));
         long long option2=findLCM(n-1 , findLCM(n-2, n-3));
-        cout<<max(option1, option2);
+        long long option3=findLCM(n , findLCM(n-1, n-3));
+        cout<<max(option1, max(option2,option3));
     }
     return 0;
 }
