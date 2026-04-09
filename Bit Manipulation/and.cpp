@@ -14,6 +14,8 @@ int main()
 // set the ith bit==>  num | (1 << i)
 
 
-// clearing the ith bit==> num & ~(1<<i)  method 1
+// clearing the ith bit==> num & ~(1<<i)  
 
-// toggling the ith bit==> num ^(1<<i)  method 2
+// toggling the ith bit==> num ^(1<<i)  
+
+// finding the ith bit===>num & (1<<i)
