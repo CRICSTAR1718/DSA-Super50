@@ -35,6 +35,30 @@ class DoublyLinkedList
             newNode->next = head;
             head = newNode;
         }
+        // Insert at specific position
+        void insertAtPosition(int val)
+        {
+            Node *newNode = new Node(val);
+            if (!head)
+            {
+                head = newNode;
+                return;
+            }
+            Node *temp = head;
+            int count = 1;
+            while (temp->next && count < val - 1)
+            {
+                temp = temp->next;
+                count++;
+            }
+            newNode->next = temp->next;
+            if (temp->next)
+            {
+                temp->next->prev = newNode;
+            }
+            temp->next = newNode;
+            newNode->prev = temp;
+        }
         // Insert at tail
         void insertAtTail(int val)
         {
