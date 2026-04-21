@@ -36,7 +36,7 @@ class DoublyLinkedList
             head = newNode;
         }
         // Insert at specific position
-        void insertAtPosition(int val)
+        void insertAtPosition(int val, int pos)
         {
             Node *newNode = new Node(val);
             if (!head)
@@ -46,7 +46,7 @@ class DoublyLinkedList
             }
             Node *temp = head;
             int count = 1;
-            while (temp->next && count < val - 1)
+            while (temp->next && count < pos - 1)
             {
                 temp = temp->next;
                 count++;
