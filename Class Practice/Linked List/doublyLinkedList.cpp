@@ -38,6 +38,16 @@ class DoublyLinkedList
         // Insert at specific position
         void insertAtPosition(int val, int pos)
         {
+            if (pos <= 0)
+            {
+                cout << "Position should be greater than 0.\n";
+                return;
+            }
+            if(pos == 1)
+            {
+                insertAtHead(val);
+                return;
+            }
             Node *newNode = new Node(val);
             if (!head)
             {
@@ -50,6 +60,11 @@ class DoublyLinkedList
             {
                 temp = temp->next;
                 count++;
+            }
+            if(temp->next == NULL || temp->next==NULL)
+            {
+                insertAtTail(val);
+                return; 
             }
             newNode->next = temp->next;
             if (temp->next)
