@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Pattern Recognition — 12-Week Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0D0F;--surface:#141416;--surface2:#1C1C1F;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#F0EFE8;--muted:#7A7972;
+  --accent:#E8FF47;
+  --c1:#E8FF47;--c2:#47FFD4;--c3:#FF9F47;--c4:#B47FFF;
+  --c5:#7FC4FF;--c6:#FF6B9D;--c7:#FF6B47;--c8:#FFD447;
+  --c9:#47FFB4;--c10:#FF47A0;--c11:#47C8FF;--c12:#A0FF47;--c13:#FF8C47;--c14:#C447FF;--c15:#47FFF0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── Header ── */
+.header{padding:3rem 2rem 2rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-80px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(232,255,71,0.06) 0%,transparent 70%);pointer-events:none}
+.header::after{content:'';position:absolute;bottom:-120px;left:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(71,255,212,0.04) 0%,transparent 70%);pointer-events:none}
+.header-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:0.75rem}
+.header h1{font-size:clamp(2.2rem,5vw,4rem);font-weight:800;line-height:1.0;margin-bottom:0.75rem}
+.header h1 span{color:var(--accent)}
+.header-sub{font-size:14px;color:var(--muted);max-width:560px;line-height:1.75}
+.meta-row{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+.meta-chip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);border:1px solid var(--border2);border-radius:20px;padding:4px 14px}
+
+/* ── Legend ── */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--surface)}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── Progress bar ── */
+.progress-wrap{padding:1rem 2rem;background:var(--surface);border-bottom:1px solid var(--border)}
+.progress-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.progress-weeks{display:flex;gap:4px;flex-wrap:wrap}
+.pw{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;transition:all 0.2s;flex-shrink:0}
+.pw:hover{border-color:var(--border2);color:var(--text)}
+.pw.done{background:rgba(232,255,71,0.12);border-color:rgba(232,255,71,0.3);color:var(--accent)}
+
+/* ── Week structure ── */
+.weeks{padding:2rem}
+.phase-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;margin-top:1.5rem;display:flex;align-items:center;gap:12px}
+.phase-label:first-child{margin-top:0}
+.phase-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.week-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:border-color 0.2s}
+.week-card:hover{border-color:var(--border2)}
+.week-header{display:grid;grid-template-columns:68px 1fr auto;align-items:center;gap:1rem;padding:1.1rem 1.5rem;cursor:pointer;user-select:none}
+.week-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);font-weight:500}
+.week-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.week-badge{font-size:10px;padding:2px 10px;border-radius:20px;font-weight:500;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.week-toggle{color:var(--muted);font-size:16px;transition:transform 0.3s;width:20px;text-align:center}
+.week-card.open .week-toggle{transform:rotate(180deg)}
+.week-body{display:none;border-top:1px solid var(--border);padding:1.5rem}
+.week-card.open .week-body{display:block}
+
+/* ── Questions ── */
+.qs-section{margin-bottom:1.4rem}
+.qs-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.65rem;font-family:'JetBrains Mono',monospace}
+.q-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:5px;background:var(--surface2);font-size:13px;transition:border-color 0.15s}
+.q-row:hover{border-color:var(--border2)}
+.q-name{color:var(--text);line-height:1.4}
+.q-sub{font-size:11px;color:var(--muted)}
+.q-platform{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);white-space:nowrap}
+.q-diff{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;white-space:nowrap}
+.diff-easy{color:#47FFD4}.diff-med{color:#FF9F47}.diff-hard{color:#FF6B47}
+
+/* ── Tip / info boxes ── */
+.tip-box{background:rgba(232,255,71,0.04);border:1px solid rgba(232,255,71,0.15);border-radius:10px;padding:1rem 1.25rem;margin-top:1rem}
+.tip-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:0.4rem}
+.tip-text{font-size:13px;color:var(--muted);line-height:1.75}
+.intro-text{font-size:13px;color:var(--muted);margin-bottom:1.25rem;line-height:1.75}
+
+/* ── Strategy grid ── */
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1.5rem}
+.strat-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem}
+.strat-title{font-size:12px;font-weight:600;margin-bottom:0.4rem}
+.strat-text{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ── Checklist ── */
+.checklist{list-style:none;margin-top:0.5rem}
+.checklist li{font-size:13px;color:var(--muted);padding:4px 0 4px 20px;position:relative;line-height:1.5}
+.checklist li::before{content:'◻';position:absolute;left:0;font-size:12px;color:var(--border2)}
+
+.footer{padding:2rem;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;line-height:1.8}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="header">
+  <div class="header-label">Complete Study Plan · DSA · All Patterns</div>
+  <h1>12-Week Pattern<br><span>Recognition</span></h1>
+  <p class="header-sub">Every major DSA pattern — from Sliding Window to Segment Trees — structured week by week with curated problems from LeetCode, Codeforces, GFG, and CodeChef. Built so your brain starts seeing patterns before your hands touch the keyboard.</p>
+  <div class="meta-row">
+    <span class="meta-chip">12 weeks</span>
+    <span class="meta-chip">~150 problems</span>
+    <span class="meta-chip">15 patterns</span>
+    <span class="meta-chip">5 platforms</span>
+    <span class="meta-chip">4 phases</span>
+  </div>
+</div>
+
+<!-- ═══════════ LEGEND ═══════════ -->
+<div class="legend">
+  <div class="legend-item"><span class="dot" style="background:var(--c1)"></span>Sliding Window</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c2)"></span>Two Pointers</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c3)"></span>Binary Search</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c4)"></span>Trees</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c5)"></span>Graphs</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c6)"></span>DP</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c7)"></span>Backtracking</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c8)"></span>Heap / PQ</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c9)"></span>Monotonic Stack</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c10)"></span>Greedy</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c11)"></span>Intervals</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c12)"></span>Union Find</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c13)"></span>Trie</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c14)"></span>Bit Manipulation</div>
+  <div class="legend-item"><span class="dot" style="background:var(--c15)"></span>Divide & Conquer</div>
+</div>
+
+<!-- ═══════════ PROGRESS ═══════════ -->
+<div class="progress-wrap">
+  <div class="progress-label">Your progress — click to mark weeks done</div>
+  <div class="progress-weeks" id="pwrap"></div>
+</div>
+
+<div class="weeks">
+
+<!-- ════════════════════════════════
+     HOW TO USE
+═════════════════════════════════ -->
+<div class="phase-label">How to use this plan</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:10px">
+  <div class="strategy-grid">
+    <div class="strat-box">
+      <div class="strat-title">🎯 The 10-min rule</div>
+      <div class="strat-text">Spend the first 10 minutes ONLY identifying the pattern — don't code yet. Write it down. This trains recognition independently of implementation.</div>
+    </div>
+    <div class="strat-box">
+      <div class="strat-title">🔁 3-attempt system</div>
+      <div class="strat-text">Attempt 1: cold. Attempt 2: after re-reading constraints. Attempt 3: after pattern reveal. Track which attempt you needed — that's your data.</div>
+    </div>
+    <div class="strat-box">
+      <div class="strat-title">📋 Template library</div>
+      <div class="strat-text">After each week, write a 15–20 line code template for that pattern. By week 12 you have a personal reference to skim before any contest.</div>
+    </div>
+    <div class="strat-box">
+      <div class="strat-title">📅 Sunday review</div>
+      <div class="strat-text">Every Sunday, re-read only the problem statements of the week. Can you identify each pattern in under 60 seconds? That's your progress check.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PHASE 1
+═════════════════════════════════ -->
+<div class="phase-label">Phase 1 — Array & String Patterns (Weeks 1–3)</div>
+
+<!-- WEEK 1 -->
+<div class="week-card open" id="w1">
+  <div class="week-header" onclick="toggle('w1')">
+    <div class="week-num">WEEK 01</div>
+    <div class="week-title">Sliding Window + Two Pointers<span class="week-badge" style="background:rgba(232,255,71,0.1);color:var(--c1)">Foundation</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">These two patterns are often confused. Master the contrast: Sliding Window = contiguous subarray/substring. Two Pointers = converging from two ends or moving at different speeds. Do both together to feel the difference.</p>
+    <div class="qs-section">
+      <div class="qs-label">Sliding Window — Fixed</div>
+      <div class="q-row"><span class="q-name">Maximum sum subarray of size K</span><span class="q-platform">GFG</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">First negative integer in every window of size K</span><span class="q-platform">GFG</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Sliding window maximum <span class="q-sub">(LC #239)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Sliding Window — Variable</div>
+      <div class="q-row"><span class="q-name">Longest substring without repeating chars <span class="q-sub">(LC #3)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Minimum size subarray sum <span class="q-sub">(LC #209)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Longest subarray with sum ≤ K</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Minimum window substring <span class="q-sub">(LC #76)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Two Pointers</div>
+      <div class="q-row"><span class="q-name">Two Sum II — sorted input <span class="q-sub">(LC #167)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Valid palindrome <span class="q-sub">(LC #125)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">3Sum <span class="q-sub">(LC #15)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Container with most water <span class="q-sub">(LC #11)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Trapping rain water <span class="q-sub">(LC #42)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Sliding Window → "contiguous subarray/substring", "window of size k". Two Pointers → sorted array + find pair, palindrome check, or merging two sequences.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 2 -->
+<div class="week-card" id="w2">
+  <div class="week-header" onclick="toggle('w2')">
+    <div class="week-num">WEEK 02</div>
+    <div class="week-title">Binary Search<span class="week-badge" style="background:rgba(255,159,71,0.1);color:var(--c3)">Foundation</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Binary search is not just "find in sorted array." The most powerful use is binary searching on the ANSWER — asking "is X feasible?" to home in on a minimum or maximum value. Master both types.</p>
+    <div class="qs-section">
+      <div class="qs-label">Classic Binary Search</div>
+      <div class="q-row"><span class="q-name">Binary search <span class="q-sub">(LC #704)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">First and last position of element <span class="q-sub">(LC #34)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Search in rotated sorted array <span class="q-sub">(LC #33)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Find peak element <span class="q-sub">(LC #162)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Binary Search on Answer</div>
+      <div class="q-row"><span class="q-name">Koko eating bananas <span class="q-sub">(LC #875)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Capacity to ship packages in D days <span class="q-sub">(LC #1011)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Aggressive cows</span><span class="q-platform">GFG / SPOJ</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Painter's partition problem</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Split array largest sum <span class="q-sub">(LC #410)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Median of two sorted arrays <span class="q-sub">(LC #4)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">"Minimize the maximum" / "maximize the minimum" → binary search on the answer. Write a feasibility function first. If feasible(mid) is monotone (true→false or false→true), binary search applies.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 3 -->
+<div class="week-card" id="w3">
+  <div class="week-header" onclick="toggle('w3')">
+    <div class="week-num">WEEK 03</div>
+    <div class="week-title">Greedy + Intervals<span class="week-badge" style="background:rgba(255,71,160,0.1);color:var(--c10)">Greedy</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Greedy makes a locally optimal choice at each step and never reconsiders it. The hard part is proving it's safe. Intervals are a natural home for greedy — sort by start or end time, then scan once.</p>
+    <div class="qs-section">
+      <div class="qs-label">Greedy — Core</div>
+      <div class="q-row"><span class="q-name">Jump game <span class="q-sub">(LC #55)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Jump game II <span class="q-sub">(LC #45)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Gas station <span class="q-sub">(LC #134)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Task scheduler <span class="q-sub">(LC #621)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">CF 1201C — Maximum Median (greedy + binary search)</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Intervals</div>
+      <div class="q-row"><span class="q-name">Merge intervals <span class="q-sub">(LC #56)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Insert interval <span class="q-sub">(LC #57)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Non-overlapping intervals <span class="q-sub">(LC #435)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Meeting rooms II <span class="q-sub">(LC #253)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Minimum number of arrows to burst balloons <span class="q-sub">(LC #452)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Greedy → "maximize/minimize" + a single scan feels sufficient + no overlapping subproblems. Intervals → sort by end time for activity selection; sort by start time for merging. Ask: "does the choice I make now ever hurt a future choice?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PHASE 2
+═════════════════════════════════ -->
+<div class="phase-label">Phase 2 — Trees, Graphs & Stack Patterns (Weeks 4–6)</div>
+
+<!-- WEEK 4 -->
+<div class="week-card" id="w4">
+  <div class="week-header" onclick="toggle('w4')">
+    <div class="week-num">WEEK 04</div>
+    <div class="week-title">Trees — DFS & BFS<span class="week-badge" style="background:rgba(180,127,255,0.1);color:var(--c4)">Trees</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Almost every tree problem is either "return info upward from children" (post-order DFS) or "process level by level" (BFS). Identify which one applies before touching code.</p>
+    <div class="qs-section">
+      <div class="qs-label">Tree BFS — Level Order</div>
+      <div class="q-row"><span class="q-name">Binary tree level order traversal <span class="q-sub">(LC #102)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Binary tree right side view <span class="q-sub">(LC #199)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Average of levels <span class="q-sub">(LC #637)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Tree DFS — Depth / Path</div>
+      <div class="q-row"><span class="q-name">Maximum depth of binary tree <span class="q-sub">(LC #104)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Diameter of binary tree <span class="q-sub">(LC #543)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Path sum II <span class="q-sub">(LC #113)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Lowest common ancestor <span class="q-sub">(LC #236)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Construct binary tree from preorder + inorder <span class="q-sub">(LC #105)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Binary tree maximum path sum <span class="q-sub">(LC #124)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">BST</div>
+      <div class="q-row"><span class="q-name">Validate binary search tree <span class="q-sub">(LC #98)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Kth smallest element in BST <span class="q-sub">(LC #230)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Both children needed for answer → post-order DFS with return value. Level-by-level → BFS with queue. Tracking path from root downward → pre-order DFS passing state down as parameter.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 5 -->
+<div class="week-card" id="w5">
+  <div class="week-header" onclick="toggle('w5')">
+    <div class="week-num">WEEK 05</div>
+    <div class="week-title">Graphs — BFS, DFS, Union Find, Topo Sort<span class="week-badge" style="background:rgba(127,196,255,0.1);color:var(--c5)">Graphs</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Graphs = trees + cycles + multiple components. Grid problems are secretly graphs. Always start by modeling: what are the nodes? what are the edges? Then choose BFS/DFS/UnionFind/Topo.</p>
+    <div class="qs-section">
+      <div class="qs-label">Grid Graphs</div>
+      <div class="q-row"><span class="q-name">Number of islands <span class="q-sub">(LC #200)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Rotting oranges <span class="q-sub">(LC #994)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">01 matrix <span class="q-sub">(LC #542)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Walls and gates <span class="q-sub">(LC #286)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">General Graphs — BFS / DFS</div>
+      <div class="q-row"><span class="q-name">Number of provinces <span class="q-sub">(LC #547)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Pacific Atlantic water flow <span class="q-sub">(LC #417)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Word ladder <span class="q-sub">(LC #127)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">CF 580C — Kefa and Park</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Union Find (DSU)</div>
+      <div class="q-row"><span class="q-name">Number of connected components <span class="q-sub">(LC #323)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Redundant connection <span class="q-sub">(LC #684)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Accounts merge <span class="q-sub">(LC #721)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Making a large island <span class="q-sub">(LC #827)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Topological Sort</div>
+      <div class="q-row"><span class="q-name">Course schedule <span class="q-sub">(LC #207)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Course schedule II <span class="q-sub">(LC #210)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Alien dictionary <span class="q-sub">(LC #269)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Shortest path unweighted → BFS. Connected components / flood fill → DFS. Dynamic connectivity, "same group?" → Union Find. Dependency ordering → Topological Sort. Cycle in directed graph → DFS with colors or Kahn's in-degree check.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 6 -->
+<div class="week-card" id="w6">
+  <div class="week-header" onclick="toggle('w6')">
+    <div class="week-num">WEEK 06</div>
+    <div class="week-title">Monotonic Stack + Heap / Priority Queue<span class="week-badge" style="background:rgba(255,212,71,0.1);color:var(--c8)">Stack & Heap</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Monotonic Stack: whenever you need the "next greater/smaller element" or a span-like computation. Heap: whenever you need repeated access to the min or max of a changing set, or top-K queries.</p>
+    <div class="qs-section">
+      <div class="qs-label">Monotonic Stack</div>
+      <div class="q-row"><span class="q-name">Next greater element I <span class="q-sub">(LC #496)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Daily temperatures <span class="q-sub">(LC #739)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Sum of subarray minimums <span class="q-sub">(LC #907)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Remove k digits <span class="q-sub">(LC #402)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Largest rectangle in histogram <span class="q-sub">(LC #84)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Maximal rectangle <span class="q-sub">(LC #85)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Heap / Priority Queue</div>
+      <div class="q-row"><span class="q-name">Kth largest element in array <span class="q-sub">(LC #215)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">K closest points to origin <span class="q-sub">(LC #973)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Top K frequent elements <span class="q-sub">(LC #347)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Merge K sorted lists <span class="q-sub">(LC #23)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Find median from data stream <span class="q-sub">(LC #295)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">CF 1209H — Moving to Berlandia (heap + greedy)</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Monotonic Stack → "next/previous greater/smaller element", "span", "histogram area". Heap → "top K", "K-th largest/smallest", "median of stream", "merge K sorted structures". If you need to repeatedly get the min or max of a dynamic set → heap.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PHASE 3
+═════════════════════════════════ -->
+<div class="phase-label">Phase 3 — Recursion & Hard Patterns (Weeks 7–9)</div>
+
+<!-- WEEK 7 -->
+<div class="week-card" id="w7">
+  <div class="week-header" onclick="toggle('w7')">
+    <div class="week-num">WEEK 07</div>
+    <div class="week-title">Dynamic Programming — 1D & 2D<span class="week-badge" style="background:rgba(255,107,157,0.1);color:var(--c6)">DP</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Don't memorize DP solutions — train the process: (1) define dp[i] precisely in English, (2) write the recurrence, (3) identify base cases. Never jump to code without the recurrence on paper.</p>
+    <div class="qs-section">
+      <div class="qs-label">1D DP</div>
+      <div class="q-row"><span class="q-name">Climbing stairs <span class="q-sub">(LC #70)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">House robber <span class="q-sub">(LC #198)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Coin change <span class="q-sub">(LC #322)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Longest increasing subsequence <span class="q-sub">(LC #300)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Decode ways <span class="q-sub">(LC #91)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Word break <span class="q-sub">(LC #139)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">2D DP</div>
+      <div class="q-row"><span class="q-name">Unique paths <span class="q-sub">(LC #62)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Longest common subsequence <span class="q-sub">(LC #1143)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">0/1 Knapsack</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Edit distance <span class="q-sub">(LC #72)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Distinct subsequences <span class="q-sub">(LC #115)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">CodeChef DP</div>
+      <div class="q-row"><span class="q-name">ALTARAY — Alternating subarray prefix</span><span class="q-platform">CodeChef</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">COINS — Bytelandian gold coins</span><span class="q-platform">CodeChef</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">"How many ways" / "min cost" / "max value" + greedy fails → DP. Test: draw the recursion tree. See identical subproblems repeating? Memoize it. Two sequences involved (LCS, edit distance)? → 2D DP table.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 8 -->
+<div class="week-card" id="w8">
+  <div class="week-header" onclick="toggle('w8')">
+    <div class="week-num">WEEK 08</div>
+    <div class="week-title">Backtracking<span class="week-badge" style="background:rgba(255,107,71,0.1);color:var(--c7)">Backtracking</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Backtracking always has the same skeleton: choose → recurse → unchoose. The only thing that changes is the pruning condition. Learn the template once, then just vary the constraint check.</p>
+    <div class="qs-section">
+      <div class="qs-label">Subsets & Combinations</div>
+      <div class="q-row"><span class="q-name">Subsets <span class="q-sub">(LC #78)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Subsets II (with duplicates) <span class="q-sub">(LC #90)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Combination sum <span class="q-sub">(LC #39)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Combination sum II <span class="q-sub">(LC #40)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Permutations & Generation</div>
+      <div class="q-row"><span class="q-name">Permutations <span class="q-sub">(LC #46)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Generate parentheses <span class="q-sub">(LC #22)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Letter combinations of phone number <span class="q-sub">(LC #17)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Constraint Satisfaction</div>
+      <div class="q-row"><span class="q-name">Word search <span class="q-sub">(LC #79)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">N-Queens <span class="q-sub">(LC #51)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Sudoku solver <span class="q-sub">(LC #37)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">"Generate all / find all valid X" → Backtracking. Template: for each choice → if valid → recurse → undo. Pruning = cutting invalid branches early. Distinguish from DP: backtracking explores all paths; DP caches overlapping ones.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 9 -->
+<div class="week-card" id="w9">
+  <div class="week-header" onclick="toggle('w9')">
+    <div class="week-num">WEEK 09</div>
+    <div class="week-title">Trie + Bit Manipulation + Divide & Conquer<span class="week-badge" style="background:rgba(196,71,255,0.1);color:var(--c14)">Advanced</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Three compact but high-value patterns. Trie: whenever you're repeatedly searching prefixes of strings. Bit Manipulation: when you need O(1) set operations or XOR tricks. Divide & Conquer: when a problem on n elements can be split into independent halves.</p>
+    <div class="qs-section">
+      <div class="qs-label">Trie</div>
+      <div class="q-row"><span class="q-name">Implement trie <span class="q-sub">(LC #208)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Word search II <span class="q-sub">(LC #212)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Design add and search words <span class="q-sub">(LC #211)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Maximum XOR of two numbers <span class="q-sub">(LC #421)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Bit Manipulation</div>
+      <div class="q-row"><span class="q-name">Single number <span class="q-sub">(LC #136)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Number of 1 bits <span class="q-sub">(LC #191)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Counting bits <span class="q-sub">(LC #338)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+      <div class="q-row"><span class="q-name">Subsets using bitmask</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Single number III <span class="q-sub">(LC #260)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Reverse bits <span class="q-sub">(LC #190)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-easy">Easy</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Divide & Conquer</div>
+      <div class="q-row"><span class="q-name">Sort an array (merge sort) <span class="q-sub">(LC #912)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Count inversions in array</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Kth largest element (quickselect) <span class="q-sub">(LC #215)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Maximum subarray (D&C approach) <span class="q-sub">(LC #53)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">CF 1574C — Optimal Insertion</span><span class="q-platform">Codeforces</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Trie → repeated prefix queries, autocomplete, XOR maximization. Bit Manipulation → XOR to find unique element, count set bits, represent subsets as integers. Divide & Conquer → problem splits into independent halves, combine step is O(n) or O(log n).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PHASE 4
+═════════════════════════════════ -->
+<div class="phase-label">Phase 4 — Integration, Mixed Practice & Mastery (Weeks 10–12)</div>
+
+<!-- WEEK 10 -->
+<div class="week-card" id="w10">
+  <div class="week-header" onclick="toggle('w10')">
+    <div class="week-num">WEEK 10</div>
+    <div class="week-title">Advanced DP — Intervals, Bitmask, Trees<span class="week-badge" style="background:rgba(255,107,157,0.1);color:var(--c6)">DP Advanced</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">These DP variants appear in harder interviews and competitive programming. They build directly on Week 7 foundations — don't attempt this week until you're solid on basic DP.</p>
+    <div class="qs-section">
+      <div class="qs-label">Interval DP</div>
+      <div class="q-row"><span class="q-name">Burst balloons <span class="q-sub">(LC #312)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Matrix chain multiplication</span><span class="q-platform">GFG</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Minimum cost to cut a stick <span class="q-sub">(LC #1547)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Bitmask DP</div>
+      <div class="q-row"><span class="q-name">Traveling salesman problem (TSP)</span><span class="q-platform">GFG</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Minimum number of work sessions <span class="q-sub">(LC #1986)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">CF 1065E — Side Hustle (bitmask DP)</span><span class="q-platform">Codeforces</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Tree DP</div>
+      <div class="q-row"><span class="q-name">House robber III <span class="q-sub">(LC #337)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Diameter of N-ary tree</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Binary tree cameras <span class="q-sub">(LC #968)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">Pattern triggers</div>
+      <div class="tip-text">Interval DP → dp[i][j] = answer for subarray/subrange [i..j]; fill by increasing length. Bitmask DP → small set of items (≤20) + exponential states. Tree DP → dp at each node depends on children; always post-order.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 11 -->
+<div class="week-card" id="w11">
+  <div class="week-header" onclick="toggle('w11')">
+    <div class="week-num">WEEK 11</div>
+    <div class="week-title">Mixed Pattern Recognition Sprint<span class="week-badge" style="background:rgba(255,255,255,0.05);color:var(--muted)">Integration</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">This week: zero context — read the problem, identify the pattern, THEN solve. No pattern label given in advance. This simulates a real interview or contest. Time every identification. Aim for pattern recognition in under 2 minutes.</p>
+    <div class="qs-section">
+      <div class="qs-label">LeetCode — identify the pattern first</div>
+      <div class="q-row"><span class="q-name">Maximum product subarray <span class="q-sub">(LC #152) — DP or sliding window?</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Partition equal subset sum <span class="q-sub">(LC #416) — backtrack or DP?</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Longest consecutive sequence <span class="q-sub">(LC #128) — sorting or union find?</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Reconstruct itinerary <span class="q-sub">(LC #332) — which graph pattern?</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Swim in rising water <span class="q-sub">(LC #778) — BFS, heap, or binary search?</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+      <div class="q-row"><span class="q-name">Serialize and deserialize binary tree <span class="q-sub">(LC #297)</span></span><span class="q-platform">LeetCode</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Codeforces — Div 2 B/C level</div>
+      <div class="q-row"><span class="q-name">CF 1399C — Boats Competition</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">CF 1512D — Corrupted Array</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">CF 1358D — The Best Vacation</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">CF 1288C — Two Arrays</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Med</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">GFG + CodeChef mixed</div>
+      <div class="q-row"><span class="q-name">Minimum spanning tree (Kruskal / Prim)</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">Dijkstra's algorithm — shortest path</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Med</span></div>
+      <div class="q-row"><span class="q-name">TREEPATH — Tree path queries</span><span class="q-platform">CodeChef</span><span class="q-diff diff-hard">Hard</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">This week's drill</div>
+      <div class="tip-text">Write the pattern name on paper before opening the editor. Then compare with the editorial's intended approach. Track your hit rate — aim for ≥ 75% by end of week. Any miss → add it to your "weak patterns" list for week 12.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 12 -->
+<div class="week-card" id="w12">
+  <div class="week-header" onclick="toggle('w12')">
+    <div class="week-num">WEEK 12</div>
+    <div class="week-title">Mock Contests + Full Review<span class="week-badge" style="background:rgba(255,255,255,0.05);color:var(--muted)">Final</span></div>
+    <div class="week-toggle">▾</div>
+  </div>
+  <div class="week-body">
+    <p class="intro-text">Pure contest simulation. Timed sessions only. The goal: pattern recognition should now be automatic — you should feel the pattern before you consciously think it.</p>
+    <div class="qs-section">
+      <div class="qs-label">Mock contest schedule</div>
+      <div class="q-row"><span class="q-name">LeetCode Weekly Contest (any recent) — 90 min timed</span><span class="q-platform">LeetCode</span><span class="q-diff diff-med">Mixed</span></div>
+      <div class="q-row"><span class="q-name">Codeforces Div 2 (virtual) — full 2 hrs</span><span class="q-platform">Codeforces</span><span class="q-diff diff-med">Mixed</span></div>
+      <div class="q-row"><span class="q-name">Codeforces Div 3 (virtual) — aim to solve all A–D</span><span class="q-platform">Codeforces</span><span class="q-diff diff-easy">Easy–Med</span></div>
+      <div class="q-row"><span class="q-name">CodeChef Starters Div B (virtual)</span><span class="q-platform">CodeChef</span><span class="q-diff diff-med">Mixed</span></div>
+      <div class="q-row"><span class="q-name">GFG 160 Days — pick any 10 unseen problems</span><span class="q-platform">GFG</span><span class="q-diff diff-med">Mixed</span></div>
+    </div>
+    <div class="qs-section">
+      <div class="qs-label">Final review checklist</div>
+      <ul class="checklist">
+        <li>Re-read all problem statements from weeks 1–11 — identify pattern in &lt;60 sec each</li>
+        <li>Write your personal 1-page cheat sheet: pattern → trigger words → template code</li>
+        <li>Pick the 3 patterns with the lowest hit rate → do 2 extra targeted problems each</li>
+        <li>For every problem solved on attempt 3 (after reveal) — write WHY you missed the pattern</li>
+        <li>Write the time & space complexity for every pattern's standard approach</li>
+        <li>Do one LeetCode timed session with only medium problems, no hints</li>
+      </ul>
+    </div>
+    <div class="tip-box">
+      <div class="tip-label">After week 12</div>
+      <div class="tip-text">Keep doing Codeforces Div 2 C/D and LeetCode mediums — but always identify the pattern first. Next frontiers: Segment Trees (range queries), Dijkstra + Bellman-Ford (weighted shortest path), Heavy-Light Decomposition (tree queries at scale).</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /weeks -->
+
+<div class="footer">
+  12-week DSA Pattern Recognition Plan · ~150 problems · 15 patterns · LeetCode · Codeforces · GFG · CodeChef<br>
+  <span style="color:rgba(255,255,255,0.2)">Identify the pattern first. Always.</span>
+</div>
+
+<script>
+// toggle week cards
+function toggle(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+// progress tracker
+const WEEKS = 12;
+const stored = JSON.parse(localStorage.getItem('dsa_progress') || '{}');
+const wrap = document.getElementById('pwrap');
+for(let i=1;i<=WEEKS;i++){
+  const d = document.createElement('div');
+  d.className = 'pw' + (stored[i] ? ' done' : '');
+  d.textContent = i;
+  d.title = 'Week ' + i;
+  d.onclick = () => {
+    stored[i] = !stored[i];
+    d.classList.toggle('done', stored[i]);
+    try{ localStorage.setItem('dsa_progress', JSON.stringify(stored)); }catch(e){}
+  };
+  wrap.appendChild(d);
+}
+</script>
+</body>
+</html>
