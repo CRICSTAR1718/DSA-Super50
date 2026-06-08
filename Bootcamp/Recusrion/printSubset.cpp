@@ -24,7 +24,7 @@ int main()
     vector<int> arr(n);
     vector<vector<int>> res;
     vector<int> curr;
-    cout << "Enter elements of the array" << endl;
+    cout << "Enter elements of the array: " << endl;
     for (int i = 0; i < n; i++)
     {
         cin >> arr[i];

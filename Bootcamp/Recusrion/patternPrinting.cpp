@@ -27,6 +27,7 @@ void print(int n)
 int main()
 {
     int n;
+    cout << "Enter number of rows: " << endl;
     cin >> n;
     print(n);
     return 0;
