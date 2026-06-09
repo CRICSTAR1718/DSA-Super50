@@ -1,0 +1,56 @@
+Range Sum Query
+Difficulty: MEDIUM | Max Score: 50
+You are given an array of N integers. Your task is to process Q queries.
+
+
+
+In each query, you are given two integers L and R. For each query, find the sum of elements in the subarray from index L to R(inclusive).
+
+
+
+Formally, for each query, you need to compute:
+
+(A[L] + A[L + 1] + A[L + 2] + .... + A[R])
+
+
+
+Input Format
+
+The first line contain two integers N and Q.
+The second line contains N space-separated integers representing the array elements.
+The next Q lines each contain two integers L and R.
+
+
+Output Format
+
+For each query, print a single integer — the sum of elements from index L to R (inclusive) on a new line.
+
+
+Constraints
+
+1 ≤ N, Q ≤ 2 * 105
+1 ≤ Ai ≤ 109 
+1 ≤ L ≤ R ≤ N
+
+
+Example 1:
+
+Input: 
+8 4
+3 2 4 5 1 1 5 3
+2 4
+5 6
+1 8
+3 3
+
+Output: 
+11
+2
+24
+4
+
+Explanation: 
+1. For the query (2, 4), we consider the elements from index 2 to 4, which are 2, 4, and 5. Their sum is 11.
+2. For the query (5, 6), we consider the elements from index 5 to 6, which are 1 and 1. Their sum is 2.
+3. For the query (1, 8), we consider all elements of the array, which are 3, 2, 4, 5, 1, 1, 5, and 3. Their sum is 24.
+4. For the query (3, 3), we consider only the element at index 3, which is 4. Hence, the sum is 4.

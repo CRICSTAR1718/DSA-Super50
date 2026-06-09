@@ -1,0 +1,62 @@
+Valid Bracket Sequences
+Difficulty: MEDIUM | Max Score: 50
+You are given an integer n, representing the length of a bracket sequence.
+
+
+
+Your task is to print all regular bracket sequences of length n.
+
+
+
+A regular bracket sequence (RBS) is a string consisting only of characters '(' and ')' that satisfies the following conditions:
+
+
+
+The total number of opening brackets '(' is equal to the total number of closing brackets ')'.
+For every prefix of the string, the number of opening brackets is greater than or equal to the number of closing brackets.
+
+
+Print all valid regular bracket sequences of length n, each on a new line.
+
+
+
+Input Format
+
+A single integer n.
+
+
+Output Format
+
+Print all regular bracket sequences of length n, one per line.
+
+
+Constraints
+
+1 ≤ n ≤ 15
+
+
+Notes
+
+If n is odd, print 0.
+The sequences should be printed in lexicographical order.
+
+
+Example 1:
+
+Input: 4
+
+Output: 
+(())
+()()
+
+Explanation: The valid regular bracket sequences of length 4 are: "(())" , "()()"
+
+
+
+Example 2:
+
+Input: 3
+
+Output: 0
+
+Explanation: It is not possible to form any regular bracket sequence of length 3.

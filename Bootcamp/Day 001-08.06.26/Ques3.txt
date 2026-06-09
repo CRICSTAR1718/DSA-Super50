@@ -1,0 +1,65 @@
+Print All Subsets of an Array
+Difficulty: MEDIUM | Max Score: 50
+You are given an array containing N unique integers. Your task is to generate and print every possible subset that can be formed using the elements of this array in lexicographically sorted order.
+
+
+
+A subset is a selection of elements from the array where the order does not matter. The empty subset should also be included.
+
+
+
+All elements of the array are unique.
+
+
+
+Input Format
+
+The first line contains the integer N, the number of elements in the array.
+The second line contains N space-separated integers representing the elements of the array.
+
+
+Output Format
+
+Print all subsets of the array in lexicographical sorted order.
+Each subset should be printed on a separate line.
+Elements inside a subset should be printed in the same order as they appear in the array.
+The empty subset should also be printed.
+
+
+Constraints:
+
+1< N < 18
+1< arr[i] < 109
+
+
+ 
+
+Example 1:
+
+Input:
+3
+1 2 3
+
+Output:
+
+1
+1 2
+1 2 3
+1 3
+2
+2 3
+3
+
+Explanation:
+The array has 3 elements: [1, 2, 3], so the total number of subsets is 2³ = 8 (including the empty subset).
+
+The subsets are printed in sorted (lexicographical) order:
+
+{}
+{1}
+{1, 2}
+{1, 2, 3}
+{1, 3}
+{2}
+{2, 3}
+{3}

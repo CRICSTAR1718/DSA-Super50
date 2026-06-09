@@ -1,0 +1,71 @@
+Count a's
+Difficulty: MEDIUM | Max Score: 50
+You are given a string S of length N consisting of lowercase English letters.
+
+You need to answer Q queries. For each query, determine the number of occurrences of the character 'a' in the substring S[L…R] (inclusive).
+
+
+
+Input Format
+
+The first line contains two integers N and Q — the length of the string and the number of queries.
+The second line contains a string S of length N.
+The next Q lines each contain two integers L and R, representing the query range (1-indexed).
+
+
+Output Format
+
+For each query, print a single integer — the number of occurrences of character 'a' in the substring S[L…R].
+
+
+Constraints
+
+1 ≤ N, Q ≤ 105
+1 ≤ L ≤ R ≤ N
+
+
+Example 1:
+
+Input:
+7 6 
+abcaabc
+1 3
+2 4
+1 6
+3 5
+4 7
+1 7
+
+Output: 
+1
+1
+3
+2
+2
+3
+
+Explanation:
+For query 1, the count of a's in range [1,3] is 1.
+For query 2, the count of a's in range [2,4] is 1.
+For query 3, the count of a's in range [1,6] is 3.
+For query 4, the count of a's in range [3,5] is 2.
+For query 5, the count of a's in range [4,7] is 2.
+For query 6, the count of a's in range [1,7] is 3.
+
+
+Example 2:
+
+Input:
+4 2
+abaa
+3 4
+1 3
+
+Output:
+2
+2
+
+Explanation:
+The count of a's in range [3,4] is 2.
+The count of a's in range [1,3] is 2.
+ 

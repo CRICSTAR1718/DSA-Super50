@@ -1,0 +1,61 @@
+BodMastt
+Difficulty: MEDIUM | Max Score: 50
+Mathematics is the complete language. ~do4Z
+You are given an array of N positive integers and a target value T.
+
+Your task is to place exactly one operator between every adjacent pair of numbers in the array to form an equation that evaluates exactly to T.
+
+You are allowed to use three operators:
+
+* (Multiplication)
++ (Addition)
+- (Subtraction)
+Evaluation Rule: To keep things simple, standard mathematical precedence (BODMAS/PEMDAS) does not apply. The equation must be evaluated strictly from Left to Right.
+
+For example, the expression 2 + 3 * 4 evaluates as (2 + 3) * 4 = 20.
+
+Find a valid sequence of operators that results in the target T. If multiple valid sequences exist, return the lexicographically smallest one.
+
+If no valid sequence of operators can reach the target, output -1.
+
+(Hint: In ASCII order, * comes before +, which comes before -).
+
+
+
+
+
+Input Format:
+
+The first line contains two space-separated integers: N (the number of elements in the array) and T (the target value).
+The second line contains N space-separated positive integers representing the array.
+
+
+Output Format:
+
+A single line containing a string of N-1 characters (without spaces) representing the valid sequence of operators.
+If no sequence evaluates to the target, print -1.
+
+
+ 
+
+Example 1:
+
+Input: 4 25
+2 3 4 5
+Output: +*+
+Explanation: 2+3*4+5 = 25 (according to the given rule).
+
+
+Example 2:
+
+Input: 3 17
+4 5 3
+Output: *-
+Explanation: 4*5-3 = 17 (according to the given rule).
+ 
+
+Constraints:
+
+2 <= N <=15
+-1015 <= T <= 1015
+1 <= Ai <= 20 (where Ai is the element of the array)
