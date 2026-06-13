@@ -58,6 +58,7 @@ public:
             int v = head1->val + carry;
             carry = v / 10;
             res->next = new ListNode(v % 10);
+            res = res->next;
             head1 = head1->next;
         }
         while (head2)
@@ -65,6 +66,7 @@ public:
             int v = head2->val + carry;
             carry = v / 10;
             res->next = new ListNode(v % 10);
+            res = res->next;
             head2 = head2->next;
         }
         if (carry)
