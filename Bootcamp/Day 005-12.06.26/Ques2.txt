@@ -1,0 +1,31 @@
+Check for the loop in Linked List
+Difficulty: MEDIUM | Max Score: 50
+You are given head node of a linked list.
+
+Your task is to find whether there is a loop in the linked list.
+
+NOTE: A loop in a singly linked list is an infinite path formed by a cicuit of K nodes which does not have any ending node.
+
+ 
+
+Example 1:
+
+Input: 1->2->3->4->5
+             |_____|
+Output: True
+Explanation: This linked list is having a loop with nodes 3,4,5
+
+
+Example 2:
+
+Input: 4->2->9->4
+             |__|
+Output: True
+Explanation: this linked list is having a loop with nodes 9,4
+ 
+
+Constraints:
+
+1 <= Size of list <= 105
+1 <= List node values <= 109
+Values of different nodes can be same as well

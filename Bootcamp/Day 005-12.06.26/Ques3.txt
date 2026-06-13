@@ -1,0 +1,22 @@
+Add the Link
+Difficulty: MEDIUM | Max Score: 50
+You are given Head nodes of two linked lists. The two linked lists contain series of digits where the series of digits is denoting an integer number.
+
+Your task is to add both the numbers and return the Head node of the linked list containing the series of the resultant number.
+
+CHALLENGE: Try to solve it using O(1) extra auxiliary space(space other than resultant output space).
+
+ 
+
+Example:
+
+Input: 5->3->6->2
+       2->9->8
+Output: 5->6->6->0
+Explanation: 5362 + 298 = 5660
+ 
+
+Constraints:
+
+1 <= Size of lists <= 105
+The lengths of the two lists can be different.

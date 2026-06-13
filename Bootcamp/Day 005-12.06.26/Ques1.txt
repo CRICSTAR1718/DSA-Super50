@@ -1,0 +1,22 @@
+Add Node at the end
+Difficulty: EASY | Max Score: 25
+Given the Head Node of a linked list and an integer K.
+
+Your task is to insert a new node at the end of the linked list with value K and return the head node of the same linked list.
+
+
+
+ 
+
+Example:
+
+Input: Linked List: 4->8->5 (Will be given head node of it)
+K=3
+Output: Linked List: 4->8->5->3 (Return head node of it)
+Explanation: As you can see that a new node with value 3 is added at the last position.
+ 
+
+Constraints:
+
+1 <= list.size() <= 105
+1 <= Elements of list <= 109
