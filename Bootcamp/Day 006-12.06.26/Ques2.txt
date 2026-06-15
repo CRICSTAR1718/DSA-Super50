@@ -1,0 +1,36 @@
+Same Same
+Difficulty: EASY | Max Score: 25
+You are given Root nodes of two binary trees.
+
+Your task is to find whether the given two trees are exactly same or not.
+
+
+
+ 
+
+Example 1:
+
+Input: 
+    2              2
+   / \            / \
+  9   7          9   7 
+   \  /\        /   / \
+   5 3  8      5   3   8
+
+Output: False
+Explanation: Values of nodes are same but not the chirality(directions)
+
+
+Example 2:
+
+Input: 
+   1         1
+    \         \   
+     3         3
+Output: True
+Explanation: Everything in both the trees are same.
+ 
+
+Constraints:
+
+0 <= Number of nodes in the trees <= 105

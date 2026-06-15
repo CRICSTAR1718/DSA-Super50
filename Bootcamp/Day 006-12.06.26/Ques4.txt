@@ -1,0 +1,42 @@
+Path Sum (Easy Version)
+Difficulty: EASY | Max Score: 25
+You are given the root of Binary tree and an integer target.
+
+Your task is to return true if the tree has a root-to-leaf path such that adding up all the values along the path equals target.
+
+
+
+NOTE: A leaf is a node with no children.
+
+
+
+ 
+
+Example 1:
+
+Input: target = 14
+         5
+        / \
+      -2   9
+     /  \   \
+    1   2    4
+Output: false
+Explanation: There is not such path existing in this given tree with sum = 14.
+
+
+Example 2:
+
+Input: target = 14
+         5
+        / \
+      -2   9
+     /  \   \
+    11  2    4
+Output: true
+Explanation: The path with node values - {5,-2,11} is having sum = 14.
+ 
+
+Constraints:
+
+0 <= Number of Nodes in the tree <=104
+-104 <= node values, target <= 104

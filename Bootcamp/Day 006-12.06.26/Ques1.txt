@@ -1,0 +1,23 @@
+Binary Tree Preorder Traversal
+Difficulty: EASY | Max Score: 25
+Given Root node of a binary Tree.
+
+Return the Preorder traversal order of that tree.
+
+
+
+Example:
+
+Input: 
+     1
+    / \
+   2   3
+      / \
+     4   5
+Output: [1,2,3,4,5]
+Explanation: Given output is the Preorder traversal order of the given binary tree
+ 
+
+Constraints:
+
+0 <= Number of Nodes <= 105

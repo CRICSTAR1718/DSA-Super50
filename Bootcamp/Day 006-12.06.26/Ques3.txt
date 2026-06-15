@@ -1,0 +1,43 @@
+Mirror in itself
+Difficulty: EASY | Max Score: 25
+You are given Root node of a Binary Tree.
+
+Your task is to find whether it is Symmetric around the axis passing down through the Root node.
+
+ 
+
+Example 1:
+
+Input: 
+        5
+       / \
+      3   3
+     / \ / \
+    4  8 4  8
+        
+Output: false
+Explanation: This tree is not symmetric along thr axis draw below:
+        5
+       /|\
+      3 | 3
+     / \|/ \
+    4  8|4  8
+        |
+
+
+
+
+Example 2:
+
+Input: 
+      4
+     / \
+    1   1
+
+Output: true
+Explanation: This tree is symmetric along the axis.
+ 
+
+Constraints:
+
+0 <= Number of nodes in the tree <= 105
