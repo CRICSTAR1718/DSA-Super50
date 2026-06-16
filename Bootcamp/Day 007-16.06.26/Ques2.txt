@@ -1,0 +1,65 @@
+Special Arrangement
+Difficulty: MEDIUM | Max Score: 50
+Given integers A, B, and C representing the number of tiles of three different colors — Red, Green, and Blue respectively.
+
+You have a total of N tiles, where N=A+B+C.
+
+
+
+Your task is to count and print all special arrangements of these tiles.
+
+
+
+A special arrangement is one where no two adjacent tiles have the same color, i.e., for every valid arrangement:
+
+arr[i]≠arr[i+1]
+
+
+
+Input Format
+
+The first line contains a single integer T — the total number of test cases.
+
+
+
+Each test case consists of:
+
+A single line containing three space-separated integers A, B, and C
+
+
+Output Format
+
+For each testcase, print all the special arrangements in a sorted manner.
+
+
+Constraints
+
+1 <= T<=5
+0 <= A, B, C <= 3
+A+B+C ==N
+
+
+
+
+Example 1:
+
+Input:
+3
+0 0 0
+1 1 0
+1 1 1﻿
+
+Output:
+GR
+RG
+BGR
+BRG
+GBR
+GRB
+RBG
+RGB
+
+Explanation:
+Case 1: No special arrangement can be found.
+Case 2: There are two special arrangements
+Case 3: There are six special arrangements.

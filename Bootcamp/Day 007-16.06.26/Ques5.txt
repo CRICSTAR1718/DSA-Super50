@@ -1,0 +1,28 @@
+Level Order Traversal of Binary Tree
+Difficulty: MEDIUM | Max Score: 50
+You are given Root node of a Binary Tree.
+
+Your task is to return Level Order Traversal of the Tree.
+
+
+
+ 
+
+Example:
+
+Input: 
+      5
+     / \
+    2   9
+     \   \
+      6   3
+     / \
+    12  8
+
+Output: [[5],[2,9],[6,3],[12,8]]
+Explanation: 
+ 
+
+Constraints:
+
+0 <= No. of nodes <= 104
