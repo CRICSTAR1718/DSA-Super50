@@ -1,0 +1,37 @@
+Breadth First Search of a Graph
+Difficulty: MEDIUM | Max Score: 50
+You are given N nodes numbered from 1 to N and M edges. You have to print the Breadth First Search Traversal order of the given graph.
+
+You have to start the traversal from node 1.
+
+
+
+Input Format:
+
+The first line contains two space separated integers N and M - representing
+The next M lines contains 2 space separated integers representing Ui and Vi
+
+
+Output Format:
+
+You have to print N space separated integers representing the BFS traversal of the graph.
+
+
+ 
+
+Example:
+
+Input: 5 6
+3 4
+1 2
+5 3
+2 5
+1 3
+4 2
+Output: 1 2 3 5 4
+Explanation: The level order traversal of this graph will be printed as shown above: 1 2 3 5 4
+ 
+
+Constraints:
+
+1<=N, M <=105
