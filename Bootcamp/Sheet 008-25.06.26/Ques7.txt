@@ -1,0 +1,70 @@
+Binary Search
+Difficulty: EASY | Max Score: 25
+You are given a sorted integer array and a target integer X.
+
+Your task is to determine the minimum number of iterations required to find X using an efficient search method.
+
+
+
+If the target value X is not present in the array, print -1.
+
+
+
+Mid-Point Selection Rule
+
+Let the current search range be from index L to R (inclusive):
+
+If the number of elements in the current range is odd, there is only one middle element. Use that element as the mid.
+If the number of elements in the current range is even, there are two middle elements. Always choose the left middle element as the mid.
+
+
+
+
+Input Format
+
+The first line contains an integer N, denoting the size of the array.
+The second line contains N space-separated integers representing the elements of the sorted array.
+The third line contains an integer X, the target value to be searched.
+
+
+Output Format
+
+Print a single integer representing the minimum number of iterations needed to locate X.
+If X is not present, print -1.
+
+
+Constraints
+
+1 ≤ N ≤ 105
+−109 ≤ A[i] ​≤ 109
+The array is sorted in non-decreasing order.
+
+
+Example 1:
+
+Input: 
+5
+10 20 30 40 50
+30
+Output: 
+1
+
+
+Example 2:
+
+Input:
+4
+1 3 5 7
+8
+Output:
+-1
+ 
+
+Example 3:
+
+Input: 
+4
+3 5 20 27
+20
+Output: 
+2

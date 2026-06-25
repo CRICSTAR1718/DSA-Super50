@@ -1,0 +1,51 @@
+Bad Pair of Students
+Difficulty: MEDIUM | Max Score: 50
+There are N students in the current course of Programming Pathshala. As Programming Pathshala is a big supporter of group studies, it wants to form pairs of students to make them study together and learn from each other.
+
+They have calculated the range of difficulty of problems that every student likes to solve, which is represented by the closed range [L, R].
+
+A pair of students will not enjoy the group sessions, if their difficulty ranges are disjoint. For example, if one student likes problems of level [1,3] and another of level [6,10], they won't enjoy working together.
+
+
+
+You have to find the number of such pairs of students who will enjoy the session together.
+
+
+
+Note:
+
+Two students who enjoy problems of difficulties [1,2] and [2,3] respectively will enjoy studying together.
+Two pairs are said to be disjoint if there are no common element in both pairs.
+
+
+Input Format
+
+The first line of input contains N, the number of students
+Next N lines each contain two integers, L and R that represent the range of difficulty of problem that each person will like.
+
+
+Constraints
+
+2 <= N <= 100000
+1 <= l,r <= 1000000000
+
+
+Output Format
+
+Output a single integer, the number of possible pair of students that enjoy the session together.
+
+
+Example 1:
+
+Input:
+4
+8 10
+4 9
+6 7
+1 2
+
+Output : 2
+
+Explanation :
+The pair [4,9] and [8,10] is one such pair that will enjoy sessions together.
+Similarly, pairs [4,9] and [6,7] are the second such pair

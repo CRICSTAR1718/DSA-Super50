@@ -1,0 +1,47 @@
+ATM Transactions
+Difficulty: MEDIUM | Max Score: 50
+A city consists of N ATM machines. Each ATM machine takes A[ i ]  time to finish a single transaction. All the ATMs can work simultaneously. Your task is to determine the minimum time required to finish K number of transactions.
+
+
+
+Input Format
+
+The first line contains two space-separated positive integers N and K, the total number of ATMs, and the total number of transactions to be made.
+The second line of each test case contains N space-separated positive integers A1, A2, A3, ......, AN.
+
+
+Output Format
+
+Print the total minimum time required to finish K transactions.
+
+
+Note:
+
+Remember transactions may occur simultaneously.
+
+
+Constraints
+
+1 <= N <= 200000
+ 1 <= A[ i ], K <= 109 
+
+
+Sample Input
+
+Input:
+3 8
+3 2 5
+
+Output:
+9
+
+Explanation;
+N = 3, K = 8
+A = [3, 2, 5]
+Ans = 9
+
+Suppose indexing is from 1 to N
+Each ATM works simultaneously
+ATM 1 makes 3 transactions
+ATM 2 makes 4 transactions
+ATM 3 makes 1 transaction

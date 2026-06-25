@@ -1,0 +1,75 @@
+Median Temperature Difference
+Difficulty: HARD | Max Score: 75
+You are a researcher analyzing the temperature variations in different cities. You are given a list of temperatures recorded in N cities on a particular day. The difference between the temperatures of two cities is defined as the absolute difference between their recorded temperatures.
+
+Your task is to find the median of all possible temperature differences between any two cities.
+
+The median of a list is the middle value when the list is sorted in non-decreasing order. If there are two middle values, the smaller one should be chosen.
+
+
+
+Input Format:
+
+The first line contains an integer N ,the number of cities.
+The second line contains N space-separated integers, where each integer represents the recorded temperature of a city.
+
+
+Output Format:
+
+Print a single integer representing the median of all temperature differences.
+
+
+Constraints:
+
+2 ≤ n ≤ 105
+1 ≤ Temperature ≤ 105
+
+
+Sample Test Cases:
+
+Example 1
+
+Input:
+3
+15 20 15
+
+Output:
+5
+
+Explanation:
+Here are all the absolute temperature differences:
+|15 - 20| = 5
+|15 - 15| = 0
+|20 - 15| = 5
+Sorted differences: [0, 5, 5]
+The median is 5.
+
+
+Example 2
+
+Input:
+4
+10 30 20 25
+
+Output:
+10
+
+Explanation:
+All absolute temperature differences:
+|10 - 30| = 20
+|10 - 20| = 10
+|10 - 25| = 15
+|30 - 20| = 10
+|30 - 25| = 5
+|20 - 25| = 5
+Sorted differences: [5, 5, 10, 10, 15, 20]
+The median is 10.
+
+
+Example 3
+
+Input:
+5
+1 5 9 2 8
+Output:
+4

@@ -1,0 +1,72 @@
+Wooden Board
+Difficulty: MEDIUM | Max Score: 50
+You have N wooden boards and an array A, where A[i] is the height of ith board. All wooden boards have the same width, but heights may differ.
+
+
+
+You can take any wooden board and cut it in two, as long as the resulting two wooden boards have integer heights. The cut can only be performed horizontally, so the two resulting boards will always have the same width as the initial one.
+
+
+
+In other words, a cut can be defined as choosing a board with a height of h and cutting it into two boards of height h1 and h2 such that h1 and h2 are positive integers and h1 + h2 = h. After this cut removes a board of height h and adds two boards of height h1 and h2 as replacement.
+
+
+
+Your goal is to build a boundary consisting of K boards, all having the same height. Find the maximum possible height of the boards in the fence. If there is no solution, print 0.
+
+
+
+Input Format:
+
+The first line of input contains two integers, N and K - denoting the total number wooden boards and the number of wooden boards used to make the boundary, respectively.
+The second line contains N space-separated integers - each denoting the height of the ith board.
+
+
+Output Format:
+
+Output a single integer - denoting the maximum possible height of the boards in the fence.
+
+
+Constraints:
+
+1  ≤ N ≤  105
+1  ≤ K ≤  109
+1  ≤ A[i] ≤  109
+
+
+
+
+Example 1:
+
+Input
+3 5
+1 1 1
+
+Output
+0
+
+Explanation:
+N = 3
+K = 5
+A = [1, 1, 1]
+We cannot have 5 wooden blocks so the answer is 0 here.
+
+
+Example 2:
+
+Input
+3 4
+15 10 8
+
+Output
+7
+
+Explanation:
+N = 3
+K = 4
+A = [15, 10, 8]
+Cut the boards as:
+15->7,7,1
+10−>7,3
+8−>7,1
+This way, there are 4 boards of height 7 which can be used to build a fence of maximum height.
