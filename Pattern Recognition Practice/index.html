@@ -1,0 +1,250 @@
+<div id="app"></div>
+<style>
+  :root{
+    --bg:#0f172a; --card:#1e293b; --card2:#162032; --accent:#22d3ee; --accent2:#a78bfa;
+    --text:#e2e8f0; --muted:#94a3b8; --done:#34d399; --border:#334155;
+  }
+  *{box-sizing:border-box; font-family:'Segoe UI',Roboto,Arial,sans-serif;}
+  body{margin:0; background:var(--bg); color:var(--text);}
+  .wrap{max-width:920px; margin:0 auto; padding:20px 16px 60px;}
+  h1{font-size:1.4rem; margin:0 0 4px;}
+  .sub{color:var(--muted); font-size:0.9rem; margin-bottom:18px;}
+  .weeks{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+  .weekbtn{padding:8px 14px; border-radius:8px; background:var(--card); border:1px solid var(--border); color:var(--text); cursor:pointer; font-size:0.85rem;}
+  .weekbtn.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0f172a; font-weight:600; border:none;}
+  .progressbar{height:10px; background:var(--card); border-radius:6px; overflow:hidden; margin-bottom:18px; border:1px solid var(--border);}
+  .progressfill{height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .3s;}
+  .progresslabel{font-size:0.8rem; color:var(--muted); margin-top:4px;}
+  .day{background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:12px; overflow:hidden;}
+  .day.sun{border-color:#7c3aed;}
+  .dayhead{display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--card2); cursor:pointer;}
+  .dayhead .left{display:flex; align-items:center; gap:10px;}
+  .daytitle{font-weight:600; font-size:0.95rem;}
+  .daytag{font-size:0.7rem; padding:2px 8px; border-radius:10px; background:#334155; color:var(--muted);}
+  .day.sun .daytag{background:#5b21b6; color:#e9d5ff;}
+  .daypct{font-size:0.8rem; color:var(--muted);}
+  .tasks{padding:8px 14px 12px; display:none;}
+  .tasks.open{display:block;}
+  .task{display:flex; align-items:flex-start; gap:10px; padding:7px 0; border-bottom:1px solid #25324533;}
+  .task:last-child{border-bottom:none;}
+  .task input{margin-top:3px; width:16px; height:16px; accent-color:var(--accent);}
+  .task label{font-size:0.88rem; cursor:pointer; line-height:1.4;}
+  .task.checked label{color:var(--muted); text-decoration:line-through;}
+  .cat{font-size:0.68rem; font-weight:700; letter-spacing:0.04em; padding:1px 6px; border-radius:5px; margin-right:6px;}
+  .cat.dsa{background:#1e3a5f; color:#7dd3fc;}
+  .cat.fsd{background:#1e4d3a; color:#6ee7b7;}
+  .cat.agent{background:#4a1e5f; color:#e9b8ff;}
+  .cat.sys{background:#5f3a1e; color:#fdba74;}
+  .cat.rev{background:#5f1e1e; color:#fca5a5;}
+  .resetbtn{background:none; border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:6px 12px; font-size:0.78rem; cursor:pointer; margin-top:20px;}
+  .resetbtn:hover{border-color:#ef4444; color:#ef4444;}
+  .toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:var(--card); border:1px solid var(--accent); padding:8px 16px; border-radius:8px; font-size:0.8rem; opacity:0; transition:opacity .3s; pointer-events:none;}
+  .toast.show{opacity:1;}
+</style>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const STORAGE_KEY = 'placement_roadmap_v1';
+
+function buildPlan(){
+  // 4 weeks, 7 days each. Day index 0-27. Sunday = index 6,13,20,27
+  const weeks = [
+    {
+      label:"Week 1 — Foundation",
+      dsa:["Arrays — 2 problems (1 new + 1 revision)","Strings — 2-3 problems"],
+      fsd:["FSD course: module 1-2 + code along","FSD course: module 3-4 + code along","FSD course: module 5-6 + code along"],
+      agent:["Agentic AI: intro + core concepts","Agentic AI: first basic agent build"],
+      sys:[]
+    },
+    {
+      label:"Week 2 — Build Momentum",
+      dsa:["LinkedList — 2-3 problems","Recursion — 2 problems","Bit Manipulation — 2 problems"],
+      fsd:["FSD course: module 7-8 + code along","FSD course: module 9-10 + code along","FSD course: module 11-12 + code along"],
+      agent:["Agentic AI: continue core build (~60% course done)"],
+      sys:[]
+    },
+    {
+      label:"Week 3 — Agentic AI Wrap-up + System Design Start",
+      dsa:["Stack/Queue — 2-3 problems","Sliding Window — 2 problems","Heaps — 2 problems"],
+      fsd:["FSD course: module 13-15 + code along","FSD course: module 16-18 + code along (course nearly done)"],
+      agent:["Agentic AI: finish remaining course hours"],
+      sys:["System Design: scalability & load balancing basics","System Design: caching strategies"]
+    },
+    {
+      label:"Week 4 — System Design + Consolidation",
+      dsa:["Graphs — 2-3 problems (extra focus)","DP — 2-3 problems (extra focus, most important)"],
+      fsd:["Mini full-stack project — build session 1","Mini full-stack project — build session 2","Mini full-stack project — build session 3"],
+      agent:[],
+      sys:["System Design: 2h module","System Design: 2h module (finish 20h course)"]
+    }
+  ];
+
+  const days = [];
+  for(let w=0; w<4; w++){
+    const wk = weeks[w];
+    for(let d=0; d<7; d++){
+      const dayNum = w*7 + d + 1;
+      const isSun = d === 6;
+      let tasks = [];
+      if(isSun){
+        tasks = [
+          {cat:"REV", text:"Timed DSA mock — 2 SDE-sheet problems (<45 min each)"},
+          {cat:"REV", text:"Revisit & re-solve DSA problems you struggled with this week"},
+          {cat:"REV", text:"1-page recap notes: FSD topics covered this week"},
+          {cat:"REV", text:"1-page recap notes: Agentic AI / System Design topics this week"},
+          {cat:"REV", text:"Optional: explain 1 mock interview question out loud"}
+        ];
+        if(w===3){
+          tasks.unshift({cat:"REV", text:"Full mock: 1 timed DSA contest set"});
+          tasks.push({cat:"REV", text:"Full mock: design a system end-to-end out loud (System Design)"});
+        }
+      } else {
+        const dsaTask = wk.dsa[d % wk.dsa.length];
+        const fsdTask = wk.fsd[d % wk.fsd.length];
+        tasks.push({cat:"DSA", text: dsaTask});
+        tasks.push({cat:"FSD", text: fsdTask});
+        if(wk.agent.length){
+          tasks.push({cat:"AGENT", text: wk.agent[d % wk.agent.length]});
+        }
+        if(wk.sys.length){
+          tasks.push({cat:"SYS", text: wk.sys[d % wk.sys.length]});
+        }
+      }
+      days.push({
+        id: dayNum,
+        week: w+1,
+        weekLabel: wk.label,
+        isSun,
+        title: isSun ? `Day ${dayNum} — Sunday (Revision/Mock)` : `Day ${dayNum}`,
+        tasks
+      });
+    }
+  }
+  return days;
+}
+
+const CAT_LABEL = {DSA:"dsa", FSD:"fsd", AGENT:"agent", SYS:"sys", REV:"rev"};
+
+function App(){
+  const plan = useRef(buildPlan()).current;
+  const [checked, setChecked] = useState({});
+  const [openDay, setOpenDay] = useState(1);
+  const [activeWeek, setActiveWeek] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+  const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try{
+        const res = await window.storage.get('checked');
+        if(res && res.value){
+          setChecked(JSON.parse(res.value));
+        }
+      }catch(e){ /* no data yet */ }
+      setLoaded(true);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if(!loaded) return;
+    (async () => {
+      try{
+        await window.storage.set('checked', JSON.stringify(checked));
+      }catch(e){ console.error('save failed', e); }
+    })();
+  }, [checked, loaded]);
+
+  function showToast(msg){
+    setToast(msg);
+    setTimeout(()=>setToast(""), 1200);
+  }
+
+  function toggle(dayId, taskIdx){
+    const key = `${dayId}-${taskIdx}`;
+    setChecked(prev => {
+      const next = {...prev, [key]: !prev[key]};
+      return next;
+    });
+  }
+
+  function dayPct(day){
+    const total = day.tasks.length;
+    if(total===0) return 0;
+    let done = 0;
+    day.tasks.forEach((t,i)=>{ if(checked[`${day.id}-${i}`]) done++; });
+    return Math.round((done/total)*100);
+  }
+
+  const weekDays = plan.filter(d => d.week === activeWeek);
+  const overallTotal = plan.reduce((a,d)=>a+d.tasks.length,0);
+  const overallDone = plan.reduce((a,d)=>{
+    let c=0; d.tasks.forEach((t,i)=>{ if(checked[`${d.id}-${i}`]) c++; });
+    return a+c;
+  },0);
+  const overallPct = overallTotal ? Math.round((overallDone/overallTotal)*100) : 0;
+
+  function resetAll(){
+    if(confirm("Reset all progress? This cannot be undone.")){
+      setChecked({});
+      showToast("Progress reset");
+    }
+  }
+
+  return (
+    <div className="wrap">
+      <h1>🎯 4-Week Placement Prep Tracker</h1>
+      <div className="sub">DSA · FSD · Agentic AI · System Design — Sunday = Revision/Mock</div>
+
+      <div className="progressbar"><div className="progressfill" style={{width: overallPct+"%"}}></div></div>
+      <div className="progresslabel">{overallDone}/{overallTotal} tasks done ({overallPct}%) overall</div>
+
+      <div className="weeks" style={{marginTop:16}}>
+        {[1,2,3,4].map(w => (
+          <button key={w} className={"weekbtn" + (activeWeek===w ? " active" : "")} onClick={()=>setActiveWeek(w)}>
+            Week {w}
+          </button>
+        ))}
+      </div>
+
+      {weekDays.map(day => {
+        const pct = dayPct(day);
+        const isOpen = openDay === day.id;
+        return (
+          <div className={"day" + (day.isSun ? " sun" : "")} key={day.id}>
+            <div className="dayhead" onClick={()=>setOpenDay(isOpen ? -1 : day.id)}>
+              <div className="left">
+                <span className="daytitle">{day.title}</span>
+                {day.isSun && <span className="daytag">REVISION / MOCK</span>}
+              </div>
+              <span className="daypct">{pct}% {pct===100 ? "✅" : ""}</span>
+            </div>
+            <div className={"tasks" + (isOpen ? " open" : "")}>
+              {day.tasks.map((t, i) => {
+                const key = `${day.id}-${i}`;
+                const isChecked = !!checked[key];
+                return (
+                  <div className={"task" + (isChecked ? " checked" : "")} key={i}>
+                    <input type="checkbox" checked={isChecked} onChange={()=>toggle(day.id, i)} id={key} />
+                    <label htmlFor={key}>
+                      <span className={"cat " + CAT_LABEL[t.cat]}>{t.cat}</span>
+                      {t.text}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+
+      <button className="resetbtn" onClick={resetAll}>Reset all progress</button>
+      <div className={"toast" + (toast ? " show" : "")}>{toast}</div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+</script>
