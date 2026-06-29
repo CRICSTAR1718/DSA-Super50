@@ -1,41 +1,41 @@
 // SLIDING WINDOW
 
-#include <bits/stdc++.h>
-using namespace std;
-int main()
-{
-    // your code goes here
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> arr[i];
-    }
-    int k;
-    cin >> k;
-    int ans = 0;
-    int left = 0;
-    int zeroes = 0;
-    for (int right = 0; right < n; right++)
-    {
-        if (arr[right] == 0)
-        {
-            zeroes++;
-        }
-        while (zeroes > k)
-        {
-            if (arr[left] == 0)
-            {
-                zeroes--;
-            }
-            left++;
-        }
-        ans = max(ans, right - left + 1);
-    }
-    cout << ans << endl;
-    return 0;
-}
+// #include <bits/stdc++.h>
+// using namespace std;
+// int main()
+// {
+//     // your code goes here
+//     int n;
+//     cin >> n;
+//     vector<int> arr(n);
+//     for (int i = 0; i < n; i++)
+//     {
+//         cin >> arr[i];
+//     }
+//     int k;
+//     cin >> k;
+//     int ans = 0;
+//     int left = 0;
+//     int zeroes = 0;
+//     for (int right = 0; right < n; right++)
+//     {
+//         if (arr[right] == 0)
+//         {
+//             zeroes++;
+//         }
+//         while (zeroes > k)
+//         {
+//             if (arr[left] == 0)
+//             {
+//                 zeroes--;
+//             }
+//             left++;
+//         }
+//         ans = max(ans, right - left + 1);
+//     }
+//     cout << ans << endl;
+//     return 0;
+// }
 
 // PREFIX SUM+ BINARY SEARCH
 

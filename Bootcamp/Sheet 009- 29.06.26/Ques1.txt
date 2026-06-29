@@ -1,0 +1,52 @@
+Digital India
+Difficulty: MEDIUM | Max Score: 50
+You are given a m x n city map where each cell can have one of three values:
+
+0 representing an empty plot of land,
+1 representing a house with no internet, or
+2 representing a house with an internet connection.
+Every minute, any house without internet that is 4-directionally adjacent to a house with an internet connection gets connected.
+
+
+
+Return the minimum number of minutes required to connect the entire city to the internet. If it is impossible to connect all houses, return -1.
+
+
+
+Input Format:
+
+The first line contains two integers, m and n, representing the number of rows and columns in the city map.
+The next m lines each contain n space-separated integers (0, 1, or 2), representing the city grid.
+
+
+Output Format:
+
+Print a single integer representing the minimum number of minutes required to connect all houses to the internet.
+If it is impossible to connect all houses, print -1.
+
+
+Constraints:
+
+1 <= m, n <= 10
+city[i][j] = { 0, 1, or 2 }.
+
+
+Example 1:
+
+Input:
+3 3 
+1 0 1
+1 1 1
+0 0 2
+
+Output: 4
+
+Explanation:
+The bottom-right cell (2,2) is the only house with an internet connection (2). It will spread the internet to neighboring houses in the following steps:
+
+Minute 1: Internet spreads to (1,2).
+Minute 2: Internet spreads to (1,1).
+Minute 3: Internet spreads to (1,0).
+Minute 4: Internet spreads to (0,0) and (0,2).
+
+Now, all houses have internet. Hence, the answer is 4 minutes.
