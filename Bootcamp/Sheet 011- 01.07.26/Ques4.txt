@@ -1,0 +1,57 @@
+Counting Special Letters
+Difficulty: MEDIUM | Max Score: 50
+A teacher is checking students' notes and wants to analyze how often certain special letters appear in different parts of a word.
+
+
+
+You are given a string s consisting of lowercase English letters. Your task is to compute the total number of vowels ('a', 'e', 'i', 'o', 'u') present across all possible substrings of the string.
+
+
+
+Since the number of substrings can be very large, the final answer may also be large.
+
+
+
+Input Format
+
+A single string s, consisting of lowercase English letters (a–z).
+
+
+Output Format
+
+Print a single integer — the total count of vowels across all substrings of the string.
+
+
+Constraints
+
+1 ≤ |s| ≤ 106
+s consists of only lowercase English letters (a-z).
+
+
+Example 1:
+
+Input: abc
+Output: 3
+Explanation: All possible substrings of given string are:
+"a" → (1 vowel)
+"ab" → (1 vowel)
+"abc" → (1 vowel)
+"b" → (0 vowels)
+"bc" → (0 vowels)
+"c" → (0 vowels)
+
+Total vowels counted = 3.
+
+
+Example 2:
+
+Input: aei
+Output: 10
+Explanation: Every substring contains at least one vowel. Total count of vowels in all substrings = 10.
+
+
+Example 3:
+
+Input: xyz
+Output: 0
+Explanation: No vowels are present, so the answer is 0.
