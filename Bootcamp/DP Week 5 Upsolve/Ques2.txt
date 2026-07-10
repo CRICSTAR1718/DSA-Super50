@@ -1,0 +1,42 @@
+The Dietician's Dilemma
+Difficulty: MEDIUM | Max Score: 50
+"ME and Sweets are like Platonics"  ~do4Z
+You are working as a sports dietician for an athlete. You have a menu of N different food items. For each item i, you know it contains C[i] calories and provides P[i] grams of protein.
+
+The athlete has a strict daily diet plan and can consume a maximum of K calories in a single meal. The athlete can either eat an entire food item or skip it entirely (no half-portions allowed).
+
+Your goal is to select a combination of food items that maximizes the total protein intake without the total calories strictly exceeding the limit K.
+
+
+
+
+
+Input Format:
+
+The first line contains two integers N (number of food items) and K (maximum allowed calories).
+The second line contains N integers representing the calories C of the items.
+The third line contains N integers representing the protein P of the items.
+
+
+Output Format:
+
+Print a single integer representing the maximum possible protein intake.
+
+
+
+
+Example:
+
+Input: 4 500
+200 150 300 250
+30 25 50 45
+Output: 80
+Explanation: Option A: Item 1 + Item 3 = 200 + 300 = 500 calories. Protein = 30 + 50 = 80. Let's look at the optimal combo! Item 1 (200 cal, 30g) + Item 3 (300 cal, 50g) = 500 calories, 80g protein. 80 is better than 75. Output is 80.
+
+
+Constraints:
+
+1 <= N <= 103 (Number of food items)
+1 <= K <= 104 (Maximum allowed calories)
+1 <= C[i] <= 104 (Calories per item)
+1 <= P[i] <= 109 (Protein per item)
