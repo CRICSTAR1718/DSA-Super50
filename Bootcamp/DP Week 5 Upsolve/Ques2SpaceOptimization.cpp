@@ -8,7 +8,7 @@ int main()
     cin >> n >> K;
     vector<long long> calories(n);
     vector<long long> protein(n);
-    vector<vector<long long>> dp(n, vector<long long>(K + 1, -1));
+    vector<long long> dp(K + 1, -1);
     for (int i = 0; i < n; i++)
     {
         cin >> calories[i];
@@ -21,26 +21,26 @@ int main()
     {
         if (i >= calories[0])
         {
-            dp[0][i] = protein[0];
+            dp[i] = protein[0];
         }
         else
         {
-            dp[0][i] = 0;
+            dp[i] = 0;
         }
     }
     for (int i = 1; i < n; i++)
     {
-        for (int j = 0; j <= K; j++)
+        for (int j = K; j >= 0; j--)
         {
-            long long notPick = dp[i - 1][j];
+            long long notPick = dp[j];
             long long pick = 0;
             if (calories[i] <= j)
             {
-                pick = protein[i] + dp[i - 1][j - calories[i]];
+                pick = protein[i] + dp[j - calories[i]];
             }
-            dp[i][j] = max(pick, notPick);
+            dp[j] = max(pick, notPick);
         }
     }
-    cout << dp[n - 1][K];
+    cout << dp[K];
     return 0;
 }
