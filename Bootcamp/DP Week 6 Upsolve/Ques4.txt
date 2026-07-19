@@ -1,0 +1,28 @@
+Palindromic Substring
+Difficulty: MEDIUM | Max Score: 50
+Given a string s, find the length of the longest substring which is a palindrome.
+
+
+
+Input Format:
+
+The only line contains a string containing English alphabets in lowercase order.
+
+
+Output Format:
+
+The only integer that you have to print represents length of the longest palindromic substring.
+
+
+ 
+
+Example:
+
+Input: programmingpathshala
+Output: 3
+Explanation: Here "ala" is a palindromic substring and the longest one.
+ 
+
+Constraints:
+
+1 <= Length of string <= 103

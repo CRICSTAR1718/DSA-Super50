@@ -1,0 +1,94 @@
+Maximum Money Collected by Alice and Bob
+Difficulty: HARD | Max Score: 75
+Alice and Bob are playing a treasure hunting game on an N × N grid.
+
+
+
+Each cell of the grid contains some amount of money.
+
+Alice starts at the top-left corner (0,0).
+Bob starts at the bottom-right corner (N−1,N−1).
+
+
+They move simultaneously and collect money from the cells they visit.
+
+
+
+Movement Rules
+
+At each second:
+
+Alice can move:
+Right (i, j + 1)
+Down (i + 1, j)
+Bob can move:
+Left (i, j − 1)
+Up (i − 1, j)
+
+
+Neither Alice nor Bob can move outside the grid.
+
+When a player visits a cell, they collect the money in that cell.
+
+
+
+Important Rules
+
+Each cell can be looted only once.
+If Alice and Bob reach the same cell at the same time, the money from that cell is counted only once.
+
+
+Both players continue moving until they reach the opposite corners:
+
+Alice must reach (N−1,N−1).
+Bob must reach (0,0).
+
+
+Your task is to compute the maximum total money Alice and Bob can collect together.
+
+
+
+Input Format
+
+The first line contains an integer: N
+The next N lines contain N integers each, representing the grid , where grid[i][j] is the amount of money in cell (i, j).
+
+
+Output Format
+
+Output a single integer : Maximum money Alice and Bob can collect together.
+
+
+Constraints
+
+2 ≤ N ≤ 200
+−109 ≤ grid[i][j] ≤ 109
+
+
+Example 1:
+
+Input:
+3
+1 2 3
+4 5 6
+7 8 9
+
+Output:
+40
+
+Explanation:
+One optimal path:
+
+Alice path:
+(0,0) → (0,1) → (1,1) → (1,2) → (2,2)
+Money collected:
+1 + 2 + 5 + 6 + 9
+
+Bob path:
+(2,2) → (2,1) → (2,0) → (1,0) → (0,0)
+Money collected:
+9 + 8 + 7 + 4 + 1
+
+Cells (0,0) and (2,2) are visited by both players, so their values are counted only once.
+
+Maximum total collected money = 42.

@@ -1,0 +1,44 @@
+Rod Cutting
+Difficulty: EASY | Max Score: 25
+Given a rod of length N and an array P  of size N+1.
+
+Pi  denotes the price of a piece of length i. Determine the maximum amount obtained by cutting the rod into pieces and selling the pieces.
+
+
+
+
+
+ Input Format:
+
+The first line contains an integer N(length of rod).
+Second line contains N+1 space separated integers denoting P0 , P1 , P2 , ........., PN
+
+
+Output Format:
+
+The only integer that you have to print is the maximum amount obtained by cutting the rod into pieces.
+
+
+
+
+Example 1:
+
+Input: 8
+0 1 5 8 9 10 17 17 20
+Output: 22
+Explanation: The maximum obtainable value is 22 by cutting in two pieces of lengths 2 and 6, i.e., 5 + 17 = 22.
+
+
+Example 2:
+
+Input: 5
+0 2 4 6 8 15
+Output: 15
+Explanation: The optimal move is to sell the entire rod of length 5 for a profit of 15.
+ 
+
+Constraints:
+
+1 <= N <= 103
+0 <= Pi <= 105
+P0 = 0

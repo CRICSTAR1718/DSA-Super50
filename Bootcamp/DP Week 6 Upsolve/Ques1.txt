@@ -1,0 +1,58 @@
+Lexiconia
+Difficulty: HARD | Max Score: 75
+In the mystical kingdom of Lexiconia, two ancient scrolls lie hidden in the royal archives. The first scroll contains the Song of Serenity, written as string S1. The second scroll holds the Tale of Thunder, encoded as string S2.
+
+One day, a mysterious manuscript appeared, known as The Scroll of Whispers, containing a string S3.
+
+
+
+The royal scholars are puzzled. They believe that this manuscript might have been formed by interleaving the two original scrolls carefully weaving parts of the Song and Tale together in an alternating pattern.
+
+However, the rules of interleaving in Lexiconia are strict:
+
+You can split S1 and S2 into parts.
+The interleaving is valid if it alternates parts from S1 and S2 (order preserved), with at most a difference of one extra part from one of them.
+Your mission as the Court Cryptographer is to determine whether The Scroll of Whispers (S3) could indeed be a valid interleaving of S1 and S2.
+
+
+
+Input Format:
+
+The first line of input contains a string : Song of Serenity (S1)
+The second line of input contains a string : Tale of Thunder (S2)
+The third line of input contains a string: Scroll of Whispers (S3)
+
+
+Output Format:
+
+1 (if s3 is a valid interleaving of S1 and S2) 
+0 (otherwise)
+
+
+Constraints:
+
+0 ≤ length of S1, S2 ≤ 100
+0 ≤ length of S3 ≤ 200
+All strings consist of lowercase English letters.
+
+
+Example 1:
+
+Input
+aabcc
+dbbca
+aadbbcbcac
+
+Output
+1
+
+
+Example 2:
+
+Input
+aabcc
+dbbca
+aadbbbaccc
+
+Output
+0
